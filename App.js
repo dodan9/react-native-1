@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Sta } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function App() {
   return (
@@ -7,12 +9,29 @@ export default function App() {
       <View style={styles.city}>
         <Text style={styles.cityName}>Seoul</Text>
       </View>
-      <View style={styles.weather}>
+      <ScrollView
+        horizontal //가로 정렬
+        pagingEnabled //페이지네이션으로 하나씩 스크롤
+        showsHorizontalScrollIndicator={false} //스크롤바 숨김
+        contentContainerStyle={styles.weather} //scrollview는 style로는 작동하지 않음
+      >
         <View style={styles.day}>
           <Text style={styles.temp}>27</Text>
           <Text style={styles.description}>Sun</Text>
         </View>
-      </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.description}>Sun</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.description}>Sun</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27</Text>
+          <Text style={styles.description}>Sun</Text>
+        </View>
+      </ScrollView>
 
       <StatusBar style='light' />
     </View>
@@ -34,11 +53,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "white",
   },
-  weather: {
-    flex: 3,
-  },
+  weather: {},
   day: {
-    flex: 1,
+    width: SCREEN_WIDTH,
     alignItems: "center",
   },
   temp: {
