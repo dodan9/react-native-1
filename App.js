@@ -10,9 +10,20 @@ import {
 } from "react-native";
 import * as Location from "expo-location";
 import axios from "axios";
+import { Fontisto } from "@expo/vector-icons";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const API_KEY = "fa74a4961e7cf545075f8e66f7fb1ce9";
+
+const icons = {
+  Clouds: "cloudy",
+  Clear: "day-sunny",
+  Atmosphere: "cloudy-gusts",
+  Snow: "snow",
+  Rain: "rains",
+  Drizzle: "rain",
+  Thunderstorm: "lightning",
+};
 
 export default function App() {
   const [city, setCity] = useState("Loading...");
@@ -74,17 +85,27 @@ export default function App() {
         {days.length > 0 ? (
           days.map((day, index) => (
             <View key={index} style={styles.day}>
-              <Text style={styles.temp}>
-                {parseFloat(day.main.temp).toFixed(1)}
-              </Text>
-              <Text style={styles.weather}>{day.weather[0].main}</Text>
-              <Text style={styles.description}>
-                {day.weather[0].description}
-              </Text>
+              <View style={styles.tempContainer}>
+                <Text style={styles.temp}>
+                  {parseFloat(day.main.temp).toFixed(1)}
+                </Text>
+                <Fontisto
+                  name={icons[day.weather[0].main]}
+                  size={60}
+                  color='white'
+                  marginLeft={-60}
+                />
+              </View>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.weather}>{day.weather[0].main}</Text>
+                <Text style={styles.description}>
+                  {day.weather[0].description}
+                </Text>
+              </View>
             </View>
           ))
         ) : (
-          <View style={styles.day}>
+          <View style={{ ...styles.day, alignItems: "center" }}>
             <ActivityIndicator color='white' size='large' />
           </View>
         )}
@@ -111,23 +132,33 @@ const styles = StyleSheet.create({
     color: "white",
   },
   weathers: {},
-  weather: {
-    marginTop: -30,
-    fontSize: 60,
-    color: "white",
-  },
   day: {
     width: SCREEN_WIDTH,
+    alignItems: "flex-start",
+    paddingHorizontal: 20,
+  },
+  tempContainer: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "flex-startss",
+    width: SCREEN_WIDTH,
   },
   temp: {
     marginTop: 50,
     color: "white",
     fontSize: 178,
   },
+  descriptionContainer: {
+    marginLeft: 10,
+  },
   description: {
     color: "white",
-    fontSize: 20,
-    marginTop: -10,
+    fontSize: 30,
+    marginTop: -5,
+  },
+  weather: {
+    marginTop: -30,
+    fontSize: 40,
+    color: "white",
   },
 });
